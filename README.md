@@ -1,69 +1,57 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# ChrisList-flask
+# User Stories
 
-## Available Scripts
+#Capstone Project - The Chris List Application
 
-In the project directory, you can run:
+#MVP
+	
+	- Users can Log in or Register
 
-### `npm start`
+	- Users can see lists of all the families they are connected to
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+	- Users can create a family and add members to it
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+	- All users in a family can see the presents of all their family members
 
-### `npm test`
+	- All Users can add presents to their "my presents" list.
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+	- Presents will be fully CRUDable
 
-### `npm run build`
+	- Users can cross out other users presents
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+	- Users who own presents can't see if some other user crosses out one of their present.
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+#Stretch Goals
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+	- Admin user can delete other users from a family
 
-### `npm run eject`
+	- Users can delete the families they created.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+	- Search Bar that searches the internet for presents
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+	- Interact with a 3rd party api that allows users to buy presents directly through a vendor
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+# Wire Frame:
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+<br>
 
-## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+![alt text](./img/Login:Register_Page.png)
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+![alt text](./img/Login_Modal.png)
 
-### Code Splitting
+![alt text](./img/Register_Modal.png)
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+![alt text](./img/List_of_Families_Page.png)
 
-### Analyzing the Bundle Size
+![alt text](./img/Add_Family_Modal.png)
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+![alt text](./img/Individual_Family_Page.png)
 
-### Making a Progressive Web App
+![alt text](./img/Add_Family_Member_Modal.png)
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+![alt text](./img/Presents_Page.png)
 
-### Advanced Configuration
+![alt text](./img/Show_Present_Page.png)
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
-# ChrisList-react
+![alt text](./img/Add_Present_Modal.png)
