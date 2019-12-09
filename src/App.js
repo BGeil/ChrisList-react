@@ -70,11 +70,17 @@ class App extends React.Component{
            this.state.loggedIn
            ?
 
-           <ChrisListsContainer logout={this.logout} user={this.state.loggedInUser}/>
+           <ChrisListsContainer 
+             logout={this.logout} 
+             user={this.state.loggedInUser}
+           />
 
            :
           
-           <LoginRegisterForm login={this.login} register={this.register}/>
+           <LoginRegisterForm 
+             login={this.login} 
+             register={this.register}
+           />
          
         }
 

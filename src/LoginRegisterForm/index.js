@@ -102,7 +102,7 @@ class LoginRegisterForm extends Component{
 				      </FormGroup>
 				      <FormGroup>
 				        <Label for="password">Password</Label>
-				        <Input type="text" name="password" id="password" value={this.state.password}
+				        <Input type="password" name="password" id="password" value={this.state.password}
 			                onChange={this.handleChange} />
 				      </FormGroup>
 		      <Button type="Submit">{this.state.action === "register" ? "Register" : "Log in" }</Button>
