@@ -3,7 +3,6 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, La
 
 
 function CreateFamily(props) {
-
 	return (
 		 <div>
 		      <Modal isOpen={props.open} >
@@ -13,7 +12,7 @@ function CreateFamily(props) {
 			        	 <FormGroup>
 					        <Label for="family_name">Add a Family to Chris List!</Label>
 					        <Input type="text" name="family_name" id="family_name" value={props.family_name}
-				                onChange={props.handleCreateChange}/>
+				                onChange={props.handleCreateFamilyChange}/>
 					      </FormGroup>
 			        </ModalBody>
 			        <ModalFooter>

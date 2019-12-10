@@ -1,6 +1,6 @@
 import React from 'react';
+import ShowPresent from '../ShowPresent'
 import { ListGroup, ListGroupItem } from 'reactstrap';
-// import ShowPresent from '../ShowPresent'
 
 
 function PresentsList(props) {
@@ -21,7 +21,7 @@ function PresentsList(props) {
 		return (
 			<div key={present.id}>
 		      <ListGroup >       
-		        <ListGroupItem tag="a" href="#" action>
+		        <ListGroupItem onClick={() => props.showPresent(present.id)} tag="a" href="#" action>
 		        	{present.present_name} --- {present.present_price}       
 		        </ListGroupItem>
 		      </ListGroup>
@@ -40,7 +40,7 @@ function PresentsList(props) {
 export default PresentsList
 
 
-// Not sure if I need to filter, justr leaving this here for now...
+// Not sure if I need to filter, just leaving this here for now...
 
 // const userPresents = props.presents.filter(present => present.user_id === props.currentUser.id && present.family_id === props.families.family_name)
 
