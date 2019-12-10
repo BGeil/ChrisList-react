@@ -1,5 +1,5 @@
 import React from 'react';
-import ShowIndividualFamily from '../ShowIndividualFamily'
+import ShowFamily from '../ShowFamily'
 import { ListGroup, ListGroupItem } from 'reactstrap';
 
 
@@ -8,7 +8,7 @@ function FamiliesList (props) {
 	return (
 		<div key={family.id}>
 			<ListGroup horizontal="lg">
-				<ListGroupItem onClick={props.showFamily} tag="a" href="#">
+				<ListGroupItem onClick={() => props.showFamily(family.id)} tag="a" href="#">
 					{family.family_id.family_name}
 				</ListGroupItem>
 			</ListGroup>

@@ -1,17 +1,19 @@
 import React, { Component } from "react";
-import { Nav, NavItem, NavLink, Navbar, ListGroup, ListGroupItem } from 'reactstrap';
+import { Nav, NavItem, NavLink, Navbar } from 'reactstrap';
 import CreateFamily from  "../CreateFamily"
 import CreatePresent from "../CreatePresent"
 import FamiliesList from "../FamiliesList"
 import PresentsList from "../PresentsList"
+import ShowFamily from "../ShowFamily"
 import ShowPresent from "../ShowPresent"
 
 class ChrisListsContainer extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			pageToView: "My Families",
 			families: [],
-			family_members: [],
+			family_members: null,
 			createFamilyModalOpen: false,
 			createFamily: {
 				family_name: ""
@@ -23,16 +25,14 @@ class ChrisListsContainer extends Component {
 				present_notes: "",
 				present_price: ""
 			},
-			pageToView: ""
-			// showingPresent: null // replace with present from array to show present
+			showCurrentPresent: null
 		}
 	}
 	componentDidMount() {
 		this.getFamilies();
 		this.getPresents();
 	}
-
-	// -------------------Families----------------------------------------------
+// ---------------------------------Families--------------------------------------------------------------
 
 	// Grabs all the families the current logged in user is related to.
 	getFamilies = async () => {
@@ -53,28 +53,6 @@ class ChrisListsContainer extends Component {
 			console.log(err);
 		}
 	};
-
-	// this displays the current users families on the index page
-	// userFamilies = () => {
-	// 	console.log("this is this.state.families");
-	// 	console.log(this.state.families);
-	// 	const userFamilies = this.state.families.map(family => {	
-	// 		return (
-	// 			<div key={family.id}>
-	// 				<ListGroup horizontal="lg">
-	// 					<ListGroupItem onClick={this.showFamily} tag="a" href="#">
-	// 						{family.family_id.family_name}
-	// 					</ListGroupItem>
-	// 				</ListGroup>
-	// 			</div>
-	// 		);
-	// 	});	
-	// 	this.setState({
-	// 		userFamilies: userFamilies
-	// 	})	
-		
-	// }
-	
 
 	// Creates A Family and adds the current user to the family
 	addFamily = async (e) => {
@@ -123,22 +101,27 @@ class ChrisListsContainer extends Component {
 
 	// Show individual family
 
-	showFamily = async (idOfFamily) => {
+	showSelectedFamily = async (idOfFamily) => {
+		console.log("this is the showSelectedFamily function in ChrisListsContainer");
 		console.log("this is the this.state.families:");
 		console.log(this.state.families);
+		console.log("this is the idOfFamily:");
+		console.log(idOfFamily);
+		const currentFamily = this.state.families.filter(family => family.id === idOfFamily)
+		this.setState({
+			pageToView: "Individual Family",
+			family_members: currentFamily
+			// change state so that ShowFamily is displayed for the chosen family
+
+			// look in this.state.families for a family with that ID
+
+			// put it in this.state.showCurrentFamily
+
+			// use a ternary to cause showFamily to show up when that isn't null
+		})		
 	}
 
-
-
-
-
-
-
-
-
-
-
-	// -------------------Presents----------------------------------------------------
+// ----------------------------------------Presents----------------------------------------------------
 
 	// Grabs all the presents the current logged in user is related to.
 	getPresents = async () => {
@@ -159,7 +142,7 @@ class ChrisListsContainer extends Component {
 			console.log(err);
 		}
 	};
-	// Create a present for the current user, CAN"T USE IT, NEED TO BE HAVE A FAMILY_ID
+	// Create a present for the current user, CAN'T USE IT, NEED TO BE HAVE A FAMILY_ID
 	addPresent = async (e) => {
 		e.preventDefault();
 		try {	
@@ -184,7 +167,6 @@ class ChrisListsContainer extends Component {
 					parsedResponse.data
 				]
 			});
-			// this.getPresents();
 			this.closeModal();
 		} 
 		catch (err) {
@@ -209,30 +191,21 @@ class ChrisListsContainer extends Component {
 	showSelectedPresent = async (idOfPresent) => {
 		console.log("this is the this.state.presents:");
 		console.log(this.state.presents);
+		console.log("this is idOfPresent:");
+		console.log(idOfPresent);
+		// this.setState({
+			// change state so that ShowPresent is displayed for the chosen present
 
-		// change state so that ShowPresent is displayed for the chosen present
+			// look in this.state.presents for a present with that ID
 
-		// look in this.state.presents for a present with that ID
+			// put it in this.state.showCurrentPresent
 
-		// put it in this.state.showingPresent
-
-		// use a ternary to cause showingPresent to show up when that isn't ull
+			// use a ternary to cause showPresent to show up when that isn't null
+		// })
 	}
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-	// -------------------Modal Open/Close & Handle Changes--------------------------------
+// ----------------------Modal Open/Close & Handle Changes----------------------------------------
 
 	// handles the change for adding new a family for the current user.
 	handleCreateFamilyChange = (e) => {
@@ -279,26 +252,10 @@ class ChrisListsContainer extends Component {
 			createPresentModalOpen: false
 		});
 	};
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	// -------------------Misc Functions--------------------------------------------------
+// -------------------------------Misc Functions--------------------------------------------------
 
 	// this is the function to show the current users presents
-	myPresents = (e) => {
+	myPresentsList = (e) => {
 		console.log("hitting the my presents button in the nav");
 		e.preventDefault()
 		this.setState({
@@ -314,13 +271,22 @@ class ChrisListsContainer extends Component {
 		})
 	}
 
-	showAnIndividualFamily = (e) => {
-		console.log("this is hitting the showAnIndividualFamily function");
+	showAnIndividualPresent = (e) => {
+		console.log("this is hitting the showAnIndividualPresent function");
 		e.preventDefault()
 		this.setState({
-			pageToView: "Individual Family"
+			pageToView: "Individual Present"
 		})
 	}
+
+
+	// showAnIndividualFamily = (e) => {
+	// 	console.log("this is hitting the showAnIndividualFamily function");
+	// 	e.preventDefault()
+	// 	this.setState({
+	// 		pageToView: "Individual Family"
+	// 	})
+	// }
 
 	
 	render() {
@@ -334,37 +300,37 @@ class ChrisListsContainer extends Component {
 				<Navbar color="light" light expand="md">
 				<Nav>
 					{
-						this.state.pageToView === "presents"
-						?
-						<NavItem>
-				          <NavLink  disabled onClick={this.createPresentModalOpen} href="#">Add A Present</NavLink>
-				        </NavItem>
-				        :
-				        <NavItem>
-				          <NavLink onClick={this.createFamilyModalOpen} href="#">Add A Family</NavLink>
-				        </NavItem>
-					}
+					this.state.pageToView === "Individual Family"
+					?
+					<NavItem>
+			          <NavLink  href="#">Add A Family Member</NavLink>
+			        </NavItem>
+					:
+			        <NavItem>
+			          <NavLink onClick={this.createFamilyModalOpen} href="#">Add A Family</NavLink>
+			        </NavItem>
+				    }
 			        <NavItem>
 			          <NavLink onClick={this.myFamiliesContainer}href="#">My Families</NavLink>
 			        </NavItem>
 			        <NavItem>
-			          <NavLink onClick={this.myPresents} href="#">My Presents</NavLink>
+			          <NavLink onClick={this.myPresentsList} href="#">My Presents</NavLink>
 			        </NavItem>
 			        <NavItem>
 			          <NavLink onClick={this.props.logout} href="#">logout</NavLink>
 			        </NavItem>
 			      </Nav>
 				  <CreateFamily
-					open={this.state.createFamilyModalOpen}
-					addFamily={this.addFamily}
-					handleCreateFamilyChange={this.handleCreateFamilyChange}
-					closeModal={this.closeModal}
+						open={this.state.createFamilyModalOpen}
+						addFamily={this.addFamily}
+						handleCreateFamilyChange={this.handleCreateFamilyChange}
+						closeModal={this.closeModal}
 				   />
 				   <CreatePresent
-					open={this.state.createPresentModalOpen}
-					addPresent={this.addPresent}
-					handleCreatePresentChange={this.handleCreatePresentChange}
-					closeModal={this.closeModal}
+						open={this.state.createPresentModalOpen}
+						addPresent={this.addPresent}
+						handleCreatePresentChange={this.handleCreatePresentChange}
+						closeModal={this.closeModal}
 				   />
 				  
 			    </Navbar>
@@ -372,12 +338,12 @@ class ChrisListsContainer extends Component {
 				   this.state.pageToView === "presents"
 				   ?
 				   <PresentsList
-				   	// families={this.state}
-				   	currentUser={this.props.user}
-				   	presents={this.state.presents}
-				   	getPresents={this.getPresents}
-				   	deletePresent={this.deletePresent}
-				   	showPresent={this.showSelectedPresent}
+					   	// families={this.state}
+					   	currentUser={this.props.user}
+					   	presents={this.state.presents}
+					   	getPresents={this.getPresents}
+					   	deletePresent={this.deletePresent}
+					   	showPresent={this.showSelectedPresent}
 				   />
 		    		:
 		    		null
@@ -389,22 +355,64 @@ class ChrisListsContainer extends Component {
 						currentUser={this.props.user}
 						families={this.state.families}
 						getFamilies={this.getFamilies}
-						showFamily={this.showFamily}
+						showFamily={this.showSelectedFamily}
 					/>
 					:
 					null
 
 				}
-
-
-			{ /* show ShowPresents or nothing */ }
-
-
+				{  /* show ShowPresent or nothing */ 
+					this.state.pageToView === "Individual Present"
+					?
+					<ShowPresent 
+						currentUser={this.props.user}
+					   	presents={this.state.presents}
+					   	getPresents={this.getPresents}
+					   	deletePresent={this.deletePresent}
+					   	showPresent={this.showSelectedPresent}
+					/>
+					:
+					null
+				}
+				{  /* show ShowFamily or nothing */ 
+					this.state.pageToView === "Individual Family" 
+					?
+					<ShowFamily 
+						currentUser={this.props.user}
+						families={this.state.families}
+						getFamilies={this.getFamilies}
+						showFamily={this.showSelectedFamily}
+						presents={this.state.presents}
+					/>
+					:
+					null
+				}
 
 			</div>
 		);
-	}
-		
+	}		
 }
-
 export default ChrisListsContainer
+
+
+
+
+
+
+
+
+
+
+
+
+// {
+// 	this.state.pageToView === "presents"
+// 	?
+// 	<NavItem>
+ //          <NavLink  disabled onClick={this.createPresentModalOpen} href="#">Add A Present</NavLink>
+ //        </NavItem>
+ //        :
+ //        <NavItem>
+ //          <NavLink onClick={this.createFamilyModalOpen} href="#">Add A Family</NavLink>
+ //        </NavItem>
+// }
