@@ -101,16 +101,36 @@ class ChrisListsContainer extends Component {
 
 	// Show individual family
 
-	showSelectedFamily = async (idOfFamily) => {
+	showSelectedFamily = async (id) => {
 		console.log("this is the showSelectedFamily function in ChrisListsContainer");
 		console.log("this is the this.state.families:");
 		console.log(this.state.families);
-		console.log("this is the idOfFamily:");
-		console.log(idOfFamily);
-		const currentFamily = this.state.families.filter(family => family.id === idOfFamily)
-		this.setState({
-			pageToView: "Individual Family",
-			family_members: currentFamily
+		console.log("this is the id of the Family:");
+		console.log(id);
+		try {
+			const families = await fetch(
+				process.env.REACT_APP_API_URL + "/api/v1/families/" + id,
+				{
+					credentials: "include"
+				}
+			);
+			const parsedFamilies = await families.json();
+			console.log("this is the showSelectedFamily parsedFamilies:");
+			console.log(parsedFamilies);
+			this.setState({
+				pageToView: "Individual Family",
+				family_members: parsedFamilies.data
+			});
+		} catch (err) {
+			console.log(err);
+		}
+
+		// const currentFamily = this.state.families.filter(family => {
+		// 	console.log(family)
+		// 	return family.id === idOfFamily
+		// })
+
+		
 			// change state so that ShowFamily is displayed for the chosen family
 
 			// look in this.state.families for a family with that ID
@@ -118,7 +138,7 @@ class ChrisListsContainer extends Component {
 			// put it in this.state.showCurrentFamily
 
 			// use a ternary to cause showFamily to show up when that isn't null
-		})		
+				
 	}
 
 // ----------------------------------------Presents----------------------------------------------------
@@ -299,16 +319,32 @@ class ChrisListsContainer extends Component {
 				<h1>This is the Chris Lists Container</h1>
 				<Navbar color="light" light expand="md">
 				<Nav>
+				  {
+						this.state.pageToView === "presents"
+						?
+							<NavItem>
+					          <NavLink onClick={this.createPresentModalOpen} href="#">Add A Present</NavLink>
+					        </NavItem>
+				        :
+					        null
+					}
 					{
-					this.state.pageToView === "Individual Family"
-					?
-					<NavItem>
-			          <NavLink  href="#">Add A Family Member</NavLink>
-			        </NavItem>
-					:
-			        <NavItem>
-			          <NavLink onClick={this.createFamilyModalOpen} href="#">Add A Family</NavLink>
-			        </NavItem>
+						this.state.pageToView === "Individual Family"
+						?
+						<NavItem>
+				          <NavLink  href="#">Add A Family Member</NavLink>
+				        </NavItem>
+						:
+						null
+				    }
+				    {
+					    this.state.pageToView === "My Families"
+					    ?
+					     <NavItem>
+				          <NavLink onClick={this.createFamilyModalOpen} href="#">Add A Family</NavLink>
+				         </NavItem>
+				         :
+				         null
 				    }
 			        <NavItem>
 			          <NavLink onClick={this.myFamiliesContainer}href="#">My Families</NavLink>
@@ -318,7 +354,7 @@ class ChrisListsContainer extends Component {
 			        </NavItem>
 			        <NavItem>
 			          <NavLink onClick={this.props.logout} href="#">logout</NavLink>
-			        </NavItem>
+			        </NavItem> 
 			      </Nav>
 				  <CreateFamily
 						open={this.state.createFamilyModalOpen}
@@ -355,7 +391,7 @@ class ChrisListsContainer extends Component {
 						currentUser={this.props.user}
 						families={this.state.families}
 						getFamilies={this.getFamilies}
-						showFamily={this.showSelectedFamily}
+						showSelectedFamily={this.showSelectedFamily}
 					/>
 					:
 					null
@@ -369,7 +405,7 @@ class ChrisListsContainer extends Component {
 					   	presents={this.state.presents}
 					   	getPresents={this.getPresents}
 					   	deletePresent={this.deletePresent}
-					   	showPresent={this.showSelectedPresent}
+					   	showSelectedPresent={this.showSelectedPresent}
 					/>
 					:
 					null
@@ -379,7 +415,7 @@ class ChrisListsContainer extends Component {
 					?
 					<ShowFamily 
 						currentUser={this.props.user}
-						families={this.state.families}
+						family_members={this.state.family_members}
 						getFamilies={this.getFamilies}
 						showFamily={this.showSelectedFamily}
 						presents={this.state.presents}
@@ -394,25 +430,3 @@ class ChrisListsContainer extends Component {
 }
 export default ChrisListsContainer
 
-
-
-
-
-
-
-
-
-
-
-
-// {
-// 	this.state.pageToView === "presents"
-// 	?
-// 	<NavItem>
- //          <NavLink  disabled onClick={this.createPresentModalOpen} href="#">Add A Present</NavLink>
- //        </NavItem>
- //        :
- //        <NavItem>
- //          <NavLink onClick={this.createFamilyModalOpen} href="#">Add A Family</NavLink>
- //        </NavItem>
-// }

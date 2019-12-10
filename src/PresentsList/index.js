@@ -1,6 +1,6 @@
 import React from 'react';
 import ShowPresent from '../ShowPresent'
-import { ListGroup, ListGroupItem } from 'reactstrap';
+import { Button, ListGroup, ListGroupItem } from 'reactstrap';
 
 
 function PresentsList(props) {
@@ -22,7 +22,7 @@ function PresentsList(props) {
 			<div key={present.id}>
 		      <ListGroup >       
 		        <ListGroupItem onClick={() => props.showPresent(present.id)} tag="a" href="#" action>
-		        	{present.present_name} --- {present.present_price}       
+		        	{present.present_name} --- {present.present_price} <br/>  
 		        </ListGroupItem>
 		      </ListGroup>
 		    </div>
@@ -32,14 +32,17 @@ function PresentsList(props) {
 	});
 	return (
     	<div>
-    	 <h3>My Presents </h3>
+    	 <h4>My Presents</h4>
         	{ userPresents }
 	    </div>
     )
 }
 export default PresentsList
 
+// <Button color="primary" size="sm" onClick={() => props.deletePresent(present.id)}>Delete Present</Button>
 
+
+    
 // Not sure if I need to filter, just leaving this here for now...
 
 // const userPresents = props.presents.filter(present => present.user_id === props.currentUser.id && present.family_id === props.families.family_name)
