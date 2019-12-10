@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Nav, NavItem, NavLink, Navbar, ListGroup, ListGroupItem } from 'reactstrap';
 import CreateFamily from  "../CreateFamily"
 import CreatePresent from "../CreatePresent"
+import FamiliesList from "../FamiliesList"
 import PresentsList from "../PresentsList"
 import ShowPresent from "../ShowPresent"
 
@@ -10,7 +11,6 @@ class ChrisListsContainer extends Component {
 		super(props);
 		this.state = {
 			families: [],
-			userFamilies: null,
 			family_members: [],
 			createFamilyModalOpen: false,
 			createFamily: {
@@ -30,7 +30,6 @@ class ChrisListsContainer extends Component {
 	componentDidMount() {
 		this.getFamilies();
 		this.getPresents();
-		this.userFamilies();
 	}
 
 	// -------------------Families----------------------------------------------
@@ -47,48 +46,34 @@ class ChrisListsContainer extends Component {
 			const parsedFamilies = await families.json();
 			console.log("this is the parsedFamilies in the getFamilies route");
 			console.log(parsedFamilies);
-
-
-			const userFamilies = parsedFamilies.data.map(family => {	
-			return (
-				<div key={family.id}>
-					<ListGroup horizontal="lg">
-						<ListGroupItem onClick={this.showFamily} tag="a" href="#">
-							{family.family_id.family_name}
-						</ListGroupItem>
-					</ListGroup>
-				</div>
-			);
-		});	
-		this.setState({
-			userFamilies: userFamilies,
-			families: parsedFamilies.data
-		});
+			this.setState({
+				families: parsedFamilies.data
+			});
 		} catch (err) {
 			console.log(err);
 		}
 	};
 
 	// this displays the current users families on the index page
-	userFamilies = () => {
-		console.log("this is this.state.families");
-		console.log(this.state.families);
-		const userFamilies = this.state.families.map(family => {	
-			return (
-				<div key={family.id}>
-					<ListGroup horizontal="lg">
-						<ListGroupItem onClick={this.showFamily} tag="a" href="#">
-							{family.family_id.family_name}
-						</ListGroupItem>
-					</ListGroup>
-				</div>
-			);
-		});	
-		this.setState({
-			userFamilies: userFamilies
-		})	
+	// userFamilies = () => {
+	// 	console.log("this is this.state.families");
+	// 	console.log(this.state.families);
+	// 	const userFamilies = this.state.families.map(family => {	
+	// 		return (
+	// 			<div key={family.id}>
+	// 				<ListGroup horizontal="lg">
+	// 					<ListGroupItem onClick={this.showFamily} tag="a" href="#">
+	// 						{family.family_id.family_name}
+	// 					</ListGroupItem>
+	// 				</ListGroup>
+	// 			</div>
+	// 		);
+	// 	});	
+	// 	this.setState({
+	// 		userFamilies: userFamilies
+	// 	})	
 		
-	}
+	// }
 	
 
 	// Creates A Family and adds the current user to the family
@@ -381,15 +366,13 @@ class ChrisListsContainer extends Component {
 					handleCreatePresentChange={this.handleCreatePresentChange}
 					closeModal={this.closeModal}
 				   />
-				
-				   
+				  
 			    </Navbar>
-				{ /* show presentlist or nothing */ }
-			    {
+			    {	/* show presentlist or nothing */
 				   this.state.pageToView === "presents"
 				   ?
 				   <PresentsList
-				   	families={this.state}
+				   	// families={this.state}
 				   	currentUser={this.props.user}
 				   	presents={this.state.presents}
 				   	getPresents={this.getPresents}
@@ -399,7 +382,21 @@ class ChrisListsContainer extends Component {
 		    		:
 		    		null
 			    }
-			{ /* show familes or nothing */ }
+				{ /* show familes or nothing */ 
+					this.state.pageToView === "My Families"
+					?
+					<FamiliesList
+						currentUser={this.props.user}
+						families={this.state.families}
+						getFamilies={this.getFamilies}
+						showFamily={this.showFamily}
+					/>
+					:
+					null
+
+				}
+
+
 			{ /* show ShowPresents or nothing */ }
 
 

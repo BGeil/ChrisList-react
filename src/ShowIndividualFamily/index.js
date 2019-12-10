@@ -1,4 +1,5 @@
 import React from 'react'
+import { ListGroup, ListGroupItem } from 'reactstrap';
 
 
 
@@ -26,7 +27,7 @@ function ShowIndividualFamily (props) {
 	    </div>
     )
 }
-}
+
 
 
 
