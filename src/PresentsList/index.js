@@ -1,6 +1,6 @@
 import React from 'react';
 import ShowPresent from '../ShowPresent'
-import { Button, ListGroup, ListGroupItem } from 'reactstrap';
+import { Button, ListGroup, ListGroupItem, Label } from 'reactstrap';
 
 
 function PresentsList(props) {
@@ -13,21 +13,26 @@ function PresentsList(props) {
 	console.log(props);
 	console.log("this is the props.presents:");
 	console.log(props.presents);
-
-	
-
+			
 	const userPresents = props.presents.map(present => {
 		
 		return (
 			<div key={present.id}>
 		      <ListGroup >       
-		        <ListGroupItem onClick={() => props.showPresent(present.id)} tag="a" href="#" action>
-		        	{present.present_name} --- {present.present_price} <br/>  
+		        <ListGroupItem onClick={() => props.showSelectedPresent(present.id)} tag="a" href="#" action>
+		        	<Label>Item: </Label>
+		        	 {present.present_name}<br/>
+		        	<Label>Description: </Label>
+				     {present.present_description}<br/>
+				    <Label>Additional Notes :</Label>
+				     {present.present_notes}<br/>
+				    <Label>Price: </Label>
+				     {present.present_price}<br/>
+		        	<Button color="secondary" size="sm" onClick={() => props.editPresent(present.id)}>Edit Present</Button>{' '}
+		        	<Button color="danger" size="sm" onClick={() => props.deletePresent(present.id)}>Delete Present</Button>
 		        </ListGroupItem>
 		      </ListGroup>
 		    </div>
-
-
 		);
 	});
 	return (
@@ -39,14 +44,4 @@ function PresentsList(props) {
 }
 export default PresentsList
 
-// <Button color="primary" size="sm" onClick={() => props.deletePresent(present.id)}>Delete Present</Button>
-
-
-    
-// Not sure if I need to filter, just leaving this here for now...
-
-// const userPresents = props.presents.filter(present => present.user_id === props.currentUser.id && present.family_id === props.families.family_name)
-
-	// console.log("this is userPresents:");
-	// console.log(userPresents)
-
+// <ListGroupItem onClick={() => props.showSelectedPresent(present.id)} tag="a" href="#" action>

@@ -2,19 +2,24 @@ import React, { Component } from "react";
 import { Nav, NavItem, NavLink, Navbar } from 'reactstrap';
 import CreateFamily from  "../CreateFamily"
 import CreatePresent from "../CreatePresent"
+import CreateFamilyMember from "../CreateFamilyMember"
 import FamiliesList from "../FamiliesList"
 import PresentsList from "../PresentsList"
 import ShowFamily from "../ShowFamily"
 import ShowPresent from "../ShowPresent"
+import EditPresent from "../EditPresent"
 
 class ChrisListsContainer extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			pageToView: "My Families",
+			queryResults: null,
 			families: [],
-			family_members: null,
+			family_members: [], // addFamilyMember pushes into here when it hears back
 			createFamilyModalOpen: false,
+			createFamilyMemberModalOpen: false,
+			editModalOpen: false,
 			createFamily: {
 				family_name: ""
 			},
@@ -25,7 +30,14 @@ class ChrisListsContainer extends Component {
 				present_notes: "",
 				present_price: ""
 			},
-			showCurrentPresent: null
+			presentToEdit: {
+				present_name: "" ,
+				present_description: "",
+				present_notes: "",
+				present_price: ""
+			},
+			showCurrentPresent: null,
+			// currentFamilyId: 
 		}
 	}
 	componentDidMount() {
@@ -120,26 +132,74 @@ class ChrisListsContainer extends Component {
 			this.setState({
 				pageToView: "Individual Family",
 				family_members: parsedFamilies.data
+				// for add family member maybe add id to state
 			});
 		} catch (err) {
 			console.log(err);
-		}
-
-		// const currentFamily = this.state.families.filter(family => {
-		// 	console.log(family)
-		// 	return family.id === idOfFamily
-		// })
-
-		
-			// change state so that ShowFamily is displayed for the chosen family
-
-			// look in this.state.families for a family with that ID
-
-			// put it in this.state.showCurrentFamily
-
-			// use a ternary to cause showFamily to show up when that isn't null
-				
+		}			
 	}
+
+	// Search for users to add to a  Family
+	searchFamilyMember = async (e, query) => {
+
+		console.log("hitting searchFamilyMember");
+		e.preventDefault();
+		try {
+			console.log("this is the query:")
+			console.log(query);
+			const usersToFamilies = await fetch(
+				process.env.REACT_APP_API_URL + "/api/v1/families/search/" + query,
+				{
+					credentials: "include"
+				}
+			);
+			const parsedUserToFamilies = await usersToFamilies.json();
+			console.log("this is the parsedUserToFamilies:");
+			console.log(parsedUserToFamilies);
+			this.setState({
+				queryResults: parsedUserToFamilies.data
+			});
+		} catch (err) {
+			console.log(err);
+		}	
+	}
+
+	// Add Family Members
+	addUsersToFamily = async (e) => {
+		e.preventDefault();
+		try {
+			
+			
+			const addUsersToFamilyResponse = await fetch(
+				process.env.REACT_APP_API_URL + "/api/v1/families/add_member",
+				{
+					method: "POST",
+					credentials: "include",
+					body: JSON.stringify(this.state.queryResults),
+					headers: {
+						"Content-Type": "application/json"
+					}
+				}
+			);
+			const parsedResponse = await addUsersToFamilyResponse.json();
+		
+			this.setState({
+				family_members: [
+					...this.state.family_members,
+					 parsedResponse.data		
+				]
+			});
+			
+			this.closeModal();
+		} 
+		catch (err) {
+			console.log(err);
+		}
+	};
+
+
+
+
 
 // ----------------------------------------Presents----------------------------------------------------
 
@@ -162,6 +222,26 @@ class ChrisListsContainer extends Component {
 			console.log(err);
 		}
 	};
+
+	// Show One Present
+	showSelectedPresent = async (idOfPresent) => {
+		console.log("this is the this.state.presents:");
+		console.log(this.state.presents);
+		console.log("this is idOfPresent:");
+		console.log(idOfPresent);
+		// this.setState({
+			// change state so that ShowPresent is displayed for the chosen present
+
+			// look in this.state.presents for a present with that ID
+
+			// put it in this.state.showCurrentPresent
+
+			// use a ternary to cause showPresent to show up when that isn't null
+		// })
+	}
+
+
+
 	// Create a present for the current user, CAN'T USE IT, NEED TO BE HAVE A FAMILY_ID
 	addPresent = async (e) => {
 		e.preventDefault();
@@ -194,6 +274,55 @@ class ChrisListsContainer extends Component {
 		}
 	};
 
+	// Edit a Present
+	editPresent = (idOfPresent) => {
+		console.log("this is the edit present route getting hit");
+		const presentToEdit = this.state.presents.find(
+			present => present.id === idOfPresent
+		);
+		this.setState({
+			editModalOpen: true,
+			presentToEdit: presentToEdit
+		});
+	};
+
+	// Update a Present
+	updatePresent = async (e) => {
+		e.preventDefault();
+		const body = {
+			present_name: this.state.presentToEdit.present_name,
+			present_description: this.state.presentToEdit.present_description,
+			present_notes: this.state.presentToEdit.present_notes,
+			present_price: this.state.presentToEdit.present_price
+		}
+		try {
+			const url = process.env.REACT_APP_API_URL + "/api/v1/presents/" + this.state.presentToEdit.id
+			const updateResponse = await fetch(url, {
+				method: "PUT",
+				credentials: "include",
+				body: JSON.stringify(body),
+				headers: {
+					"Content-Type": "application/json"
+				}
+			});
+			const updateResponseParsed = await updateResponse.json();
+			const newPresentsArrayWithUpdate = this.state.presents.map(
+				(present) => {
+					if (present.id === updateResponseParsed.data.id) {
+						present = updateResponseParsed.data;
+					}
+					return present;
+				}
+			);
+			this.setState({
+				presents: newPresentsArrayWithUpdate
+			});
+			this.closeModal();
+		} catch (err) {
+			console.log(err);
+		}
+	};
+
 	// This deletes the current present of the current user (Can't test until family members are done)
 	deletePresent = async (id) => {
 		const deletePresentResponse = await fetch(
@@ -208,21 +337,6 @@ class ChrisListsContainer extends Component {
 		this.setState({presents: this.state.presents.filter((present) => present.id !== id)});
 	};
 
-	showSelectedPresent = async (idOfPresent) => {
-		console.log("this is the this.state.presents:");
-		console.log(this.state.presents);
-		console.log("this is idOfPresent:");
-		console.log(idOfPresent);
-		// this.setState({
-			// change state so that ShowPresent is displayed for the chosen present
-
-			// look in this.state.presents for a present with that ID
-
-			// put it in this.state.showCurrentPresent
-
-			// use a ternary to cause showPresent to show up when that isn't null
-		// })
-	}
 
 
 // ----------------------Modal Open/Close & Handle Changes----------------------------------------
@@ -237,6 +351,18 @@ class ChrisListsContainer extends Component {
 			}
 		})
 	}
+
+	// handles the change for adding new a family for the current user.
+	handleCreateFamilyMemberChange = (e) => {
+		e.preventDefault();
+		this.setState({
+			createFamily: {
+				...this.state.createFamilyMember,
+				[e.target.name]: e.target.value
+			}
+		})
+	}
+
 	// handles the change for adding new a present for the current user.
 	handleCreatePresentChange = (e) => {
 		e.preventDefault();
@@ -247,6 +373,16 @@ class ChrisListsContainer extends Component {
 			}
 		})
 	}
+	// handles the change for editing a present for the current user.
+	handleEditPresentChange = (e) => {
+		e.preventDefault();
+		this.setState({
+			presentToEdit: {
+				...this.state.presentToEdit,
+				[e.target.name]: e.target.value
+			}
+		});
+	};
 
 	// Opens Add Family Model
 	createFamilyModalOpen = () => {
@@ -256,6 +392,16 @@ class ChrisListsContainer extends Component {
 		});
 
 	};
+
+	// Opens Add Family Member Model
+	createFamilyMemberModalOpen = () => {
+		console.log("hitting the createFamilyMemberModalOpen");
+		this.setState({
+			createFamilyMemberModalOpen: true
+		});
+
+	};
+
 	// Opens Add Present Model
 	createPresentModalOpen = () => {
 		console.log("hitting the createPresentModalOpen");
@@ -265,11 +411,14 @@ class ChrisListsContainer extends Component {
 
 	};
 
+
 	// Closes All Models 
 	closeModal = () => {
 		this.setState({
 			createFamilyModalOpen: false,
-			createPresentModalOpen: false
+			createPresentModalOpen: false,
+			createFamilyMemberModalOpen: false,
+			editModalOpen: false
 		});
 	};
 // -------------------------------Misc Functions--------------------------------------------------
@@ -299,16 +448,6 @@ class ChrisListsContainer extends Component {
 		})
 	}
 
-
-	// showAnIndividualFamily = (e) => {
-	// 	console.log("this is hitting the showAnIndividualFamily function");
-	// 	e.preventDefault()
-	// 	this.setState({
-	// 		pageToView: "Individual Family"
-	// 	})
-	// }
-
-	
 	render() {
 		// I need to display my nav bar(CHECK) and 
 		// I need to display the current users families they are related to (CHECK) and
@@ -332,7 +471,7 @@ class ChrisListsContainer extends Component {
 						this.state.pageToView === "Individual Family"
 						?
 						<NavItem>
-				          <NavLink  href="#">Add A Family Member</NavLink>
+				          <NavLink  onClick={this.createFamilyMemberModalOpen} href="#">Add A Family Member</NavLink>
 				        </NavItem>
 						:
 						null
@@ -368,19 +507,33 @@ class ChrisListsContainer extends Component {
 						handleCreatePresentChange={this.handleCreatePresentChange}
 						closeModal={this.closeModal}
 				   />
+				   <CreateFamilyMember 
+				   		open={this.state.createFamilyMemberModalOpen}
+				   		searchFamilyMember={this.searchFamilyMember}
+				   		closeModal={this.closeModal}
+				   />
+			       <EditPresent
+						open={this.state.editModalOpen}
+						updatePresent={this.updatePresent}
+						presentToEdit={this.state.presentToEdit}
+						closeModal={this.closeModal}
+						handleEditPresentChange={this.handleEditPresentChange}
+					/>
 				  
 			    </Navbar>
 			    {	/* show presentlist or nothing */
 				   this.state.pageToView === "presents"
 				   ?
 				   <PresentsList
-					   	// families={this.state}
+					   	
 					   	currentUser={this.props.user}
 					   	presents={this.state.presents}
 					   	getPresents={this.getPresents}
+					   	editPresent={this.editPresent}
+					   	handleEditPresentChange={this.handleEditPresentChange}
 					   	deletePresent={this.deletePresent}
-					   	showPresent={this.showSelectedPresent}
-				   />
+					   	showSelectedPresent={this.showSelectedPresent}
+				   />  	
 		    		:
 		    		null
 			    }
@@ -392,12 +545,13 @@ class ChrisListsContainer extends Component {
 						families={this.state.families}
 						getFamilies={this.getFamilies}
 						showSelectedFamily={this.showSelectedFamily}
+						searchFamilyMember={this.searchFamilyMember}
 					/>
 					:
 					null
 
 				}
-				{  /* show ShowPresent or nothing */ 
+				 {  /* show ShowPresent or nothing */ 
 					this.state.pageToView === "Individual Present"
 					?
 					<ShowPresent 
@@ -416,9 +570,7 @@ class ChrisListsContainer extends Component {
 					<ShowFamily 
 						currentUser={this.props.user}
 						family_members={this.state.family_members}
-						getFamilies={this.getFamilies}
-						showFamily={this.showSelectedFamily}
-						presents={this.state.presents}
+						showSelectedFamily={this.showSelectedFamily}
 					/>
 					:
 					null
