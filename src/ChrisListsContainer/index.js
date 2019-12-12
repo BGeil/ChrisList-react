@@ -13,8 +13,8 @@ class ChrisListsContainer extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			family_ID: null,
 			pageToView: "My Families",
-			queryResults: null,
 			families: [],
 			family_members: [], // addFamilyMember pushes into here when it hears back
 			createFamilyModalOpen: false,
@@ -37,7 +37,7 @@ class ChrisListsContainer extends Component {
 				present_price: ""
 			},
 			showCurrentPresent: null,
-			// currentFamilyId: 
+			currentFamilyId: null
 		}
 	}
 	componentDidMount() {
@@ -84,24 +84,26 @@ class ChrisListsContainer extends Component {
 				}
 			);
 			const parsedResponse = await createdFamilyResponse.json();
-			console.log("this is the parsedResponse in the addFamily route:");
-			console.log(parsedResponse, "this is the response");
-			// create an object from parsedResponse.data w/ the same shape as the ones in state
-			console.log("this is the parsedResponse.data:");
-			console.log(parsedResponse.data);
 
+
+
+
+			console.log("parsedResponse >>>>>>>>>>>>>> THIAGO ", parsedResponse);
+			console.log(parsedResponse.data.family);
 			// build object here
 			const familyToAdd = {
 				family_id: {
 						family_name: parsedResponse.data.family_name
+						
 					},	
 			}
 
 			this.setState({
 				families: [
 					...this.state.families, 
-					familyToAdd // replace this with an obj that looks like the ones in state
-				]
+					familyToAdd 
+				],
+				family_ID: parsedResponse.data.family.id
 			});
 			this.getFamilies();
 			this.closeModal();
@@ -112,13 +114,7 @@ class ChrisListsContainer extends Component {
 	};
 
 	// Show individual family
-
 	showSelectedFamily = async (id) => {
-		console.log("this is the showSelectedFamily function in ChrisListsContainer");
-		console.log("this is the this.state.families:");
-		console.log(this.state.families);
-		console.log("this is the id of the Family:");
-		console.log(id);
 		try {
 			const families = await fetch(
 				process.env.REACT_APP_API_URL + "/api/v1/families/" + id,
@@ -127,46 +123,24 @@ class ChrisListsContainer extends Component {
 				}
 			);
 			const parsedFamilies = await families.json();
-			console.log("this is the showSelectedFamily parsedFamilies:");
+			console.log("this is parsedFamilies in showSelectedFamily")
 			console.log(parsedFamilies);
 			this.setState({
 				pageToView: "Individual Family",
-				family_members: parsedFamilies.data
-				// for add family member maybe add id to state
+				family_members: parsedFamilies.data,
+				currentFamilyId: id
+				
 			});
 		} catch (err) {
 			console.log(err);
 		}			
 	}
 
-	// Search for users to add to a  Family
-	searchFamilyMember = async (e, query) => {
-
-		console.log("hitting searchFamilyMember");
-		e.preventDefault();
-		try {
-			console.log("this is the query:")
-			console.log(query);
-			const usersToFamilies = await fetch(
-				process.env.REACT_APP_API_URL + "/api/v1/families/search/" + query,
-				{
-					credentials: "include"
-				}
-			);
-			const parsedUserToFamilies = await usersToFamilies.json();
-			console.log("this is the parsedUserToFamilies:");
-			console.log(parsedUserToFamilies);
-			this.setState({
-				queryResults: parsedUserToFamilies.data
-			});
-		} catch (err) {
-			console.log(err);
-		}	
-	}
-
 	// Add Family Members
-	addUsersToFamily = async (e) => {
-		e.preventDefault();
+	addUsersToFamily = async (formInfo) => {
+
+		console.log("this is the addUsersToFamily in formInfo:");
+		console.log(formInfo);
 		try {
 			
 			
@@ -175,21 +149,26 @@ class ChrisListsContainer extends Component {
 				{
 					method: "POST",
 					credentials: "include",
-					body: JSON.stringify(this.state.queryResults),
+					body: JSON.stringify(formInfo),
 					headers: {
 						"Content-Type": "application/json"
 					}
 				}
 			);
 			const parsedResponse = await addUsersToFamilyResponse.json();
-		
+			console.log("this is parsed Response in addUsersToFamily")
+			console.log(parsedResponse)
+			console.log('\nthis is this.state.family_members before new member is added');
+			console.log(this.state.family_members);
 			this.setState({
 				family_members: [
 					...this.state.family_members,
-					 parsedResponse.data		
-				]
+					parsedResponse.data	
+				],
 			});
-			
+			console.log('\nthis is this.state.family_members after new member is added');
+			console.log(this.state.family_members);
+			this.showSelectedFamily(formInfo.family_id);
 			this.closeModal();
 		} 
 		catch (err) {
@@ -511,6 +490,9 @@ class ChrisListsContainer extends Component {
 				   		open={this.state.createFamilyMemberModalOpen}
 				   		searchFamilyMember={this.searchFamilyMember}
 				   		closeModal={this.closeModal}
+				   		currentFamilyId={this.state.currentFamilyId}
+				   		addUsersToFamily={this.addUsersToFamily}
+				   		family_ID={this.state.family_ID}
 				   />
 			       <EditPresent
 						open={this.state.editModalOpen}
@@ -570,6 +552,8 @@ class ChrisListsContainer extends Component {
 					<ShowFamily 
 						currentUser={this.props.user}
 						family_members={this.state.family_members}
+						currentFamilyId={this.state.currentFamilyId}
+				   		addUsersToFamily={this.addUsersToFamily}
 						showSelectedFamily={this.showSelectedFamily}
 					/>
 					:

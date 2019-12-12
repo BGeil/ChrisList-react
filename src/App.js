@@ -7,7 +7,7 @@ class App extends React.Component{
   constructor(){
     super()
     this.state = {
-      loggedIn: true,
+      loggedIn: false,
       loggedInUser: null
     }
   }
