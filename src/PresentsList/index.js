@@ -5,15 +5,8 @@ import { Button, ListGroup, ListGroupItem, Label } from 'reactstrap';
 
 function PresentsList(props) {
 	if (props.presents === []) {
-		console.log("we're getting presents");
 		props.getPresents();
-	}
-	
-	console.log("this is the props of PresentsList");
-	console.log(props);
-	console.log("this is the props.presents:");
-	console.log(props.presents);
-			
+	}		
 	const userPresents = props.presents.map(present => {
 		
 		return (

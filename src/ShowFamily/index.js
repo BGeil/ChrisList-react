@@ -4,9 +4,6 @@ import { ListGroup, ListGroupItem } from 'reactstrap';
 
 
 function ShowFamily (props) {
-	
-	console.log("this is the props in ShowFamily:");
-	console.log(props);
 	let currentFamily = []
 
 		if(props.family_members[0] !== 0) {

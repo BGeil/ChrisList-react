@@ -434,7 +434,7 @@ class ChrisListsContainer extends Component {
 		
 		return (
 			<div>
-				<h1>This is the Chris Lists Container</h1>
+				<h1>Chris Lists</h1>
 				<Navbar color="light" light expand="md">
 				<Nav>
 				  {

@@ -4,8 +4,6 @@ import { ListGroup, ListGroupItem } from 'reactstrap';
 
 
 function FamiliesList (props) {
-	console.log("this is the props of familiesList:");
-	console.log(props);
 	const userFamilies = props.families.map(family => {	
 	return (
 		<div key={family.id}>

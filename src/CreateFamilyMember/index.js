@@ -4,8 +4,6 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, La
 
 class CreateFamilyMember extends Component {
 	constructor(props) {
-		console.log('\nthis is props in CreateFamilyMember');
-		console.log(props);
 		super(props);
 		this.state = {
 			query: '',
@@ -27,11 +25,7 @@ class CreateFamilyMember extends Component {
 
 	// Search for users to add to a  Family
 	searchFamilyMember = async (query) => {
-
-		console.log("hitting searchFamilyMember");
 		try {
-			console.log("this is the query:")
-			console.log(query);
 			const usersToFamilies = await fetch(
 				process.env.REACT_APP_API_URL + "/api/v1/families/search/" + query,
 				{
@@ -39,8 +33,6 @@ class CreateFamilyMember extends Component {
 				}
 			);
 			const parsedUserToFamilies = await usersToFamilies.json();
-			console.log("this is the parsedUserToFamilies:");
-			console.log(parsedUserToFamilies);
 			this.setState({
 				results: parsedUserToFamilies.data
 			});
@@ -68,7 +60,6 @@ class CreateFamilyMember extends Component {
 						)	
 				})
 		}
-			console.log("THIS IS PROPS IN CreateFamilyMember >>>> RENDER ", this.props);
 		return (
 			 <div>
 			      <Modal isOpen={this.props.open} >

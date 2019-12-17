@@ -62,7 +62,6 @@ class App extends React.Component{
   }
 
   render(){
-    console.log(this.state.loggedInUser);
     return(
       <div className='App'>
         
