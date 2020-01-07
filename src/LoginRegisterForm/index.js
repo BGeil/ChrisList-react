@@ -65,9 +65,14 @@ class LoginRegisterForm extends Component{
     	<div>
 
             <header>
-	           Welcome to the Chris List
+            	<h1 className="text-center">
+		           The Chris List
+	            </h1>
+	            <h2 className="text-center">
+	            	Welcome, Join Us For The Holidays!
+	            </h2>
             </header>
-			<Form onSubmit={this.handleSubmit}>
+			<Form  className="login-form" onSubmit={this.handleSubmit}>
 	    	 {
 		        this.state.action === "register"
 		        ?
@@ -105,14 +110,18 @@ class LoginRegisterForm extends Component{
 				        <Input type="password" name="password" id="password" value={this.state.password}
 			                onChange={this.handleChange} />
 				      </FormGroup>
-		      <Button type="Submit">{this.state.action === "register" ? "Register" : "Log in" }</Button>
+		      <Button className="btn-lg btn-dark btn-block mt-4" type="Submit">{this.state.action === "register" ? "Register" : "Log in" }</Button>
 		    </Form>
 		    {
 			  this.state.action === "register"
 			  ?
-			  <small >Already have an account? Log in <span onClick={this.switchForm}>here</span>.</small>
+			  <div className="text-center pt-3">
+			  <small>Already have an account? Log in <span onClick={this.switchForm}>here</span>.</small>
+			  </div>
 			  :
-			  <small >Need an account? Sign up <span onClick={this.switchForm}>here</span>!</small>  
+			  <div className="text-center pt-3">
+			  <small>Need an account? Sign up <span onClick={this.switchForm}>here</span>!</small> 
+			  </div> 
 		    }
 	    </div>
   );
