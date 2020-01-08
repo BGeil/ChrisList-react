@@ -5,6 +5,34 @@
   margin: auto;
   height: 100%;
 }
+.header-style {
+  background-color: #cc9966;
+  color: white;
+  text-shadow: 2px 2px #ff0000;
+  width: 100%;
+  max-width: 430px;
+  padding: 15px;
+  margin: auto;
+  height: 100%;
+  border-radius: 50%;
+  border: solid #604020 10px;
+}
+.form-style {
+  margin-top: 30px;
+  border-radius: 8%;
+  color: white;
+  text-shadow: 2px 2px #ff0000;
+  background-color: #cc9966;
+  border: solid #604020 10px;
+}
+.LRButton {
+  color: white;
+  text-shadow: 2px 2px #ff0000;
+}
+
+.LRHyperL {
+  background-color: pink;
+}
 
 body {
   background-color: #2E8B57;
