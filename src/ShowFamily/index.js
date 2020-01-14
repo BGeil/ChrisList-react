@@ -5,6 +5,7 @@ import { ListGroup, ListGroupItem } from 'reactstrap';
 
 function ShowFamily (props) {
 	let currentFamily = []
+	let theFamilyName = ""
 
 		if(props.family_members[0] !== 0) {
 			currentFamily.push(		
@@ -19,11 +20,11 @@ function ShowFamily (props) {
 			        	)})}
 			        </ListGroupItem>
 		      </ListGroup>		    
-			)				    
-    	}
+			)			    
+    	}			
 	return(
 		<React.Fragment>
-			<h1>My Family</h1>
+			<h1>{props.family_members[0][0].family_id.family_name}</h1>
 			{currentFamily}
 		</React.Fragment>
 	)

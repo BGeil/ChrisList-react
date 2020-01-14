@@ -69,7 +69,7 @@ class LoginRegisterForm extends Component{
 		           The Chris List
 	            </h1>
 	            <h2 className="text-center">
-	            	Welcome, Join Us For The Holidays!
+	            	A Christmas Present Manager
 	            </h2>
             </header>
 			<Form  className="login-form form-style" onSubmit={this.handleSubmit}>
@@ -120,7 +120,7 @@ class LoginRegisterForm extends Component{
 			  </div>
 			  :
 			  <div className="text-center pt-3 LRButton" >
-			  <small>Don't have an account? Sign up <span className="" onClick={this.switchForm}>here</span>!</small> 
+			  <small>Don't have an account? Sign up <span className="" onClick={this.switchForm}>here</span>.</small> 
 			  </div> 
 		    }
 	    </div>

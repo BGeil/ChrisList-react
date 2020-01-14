@@ -13,6 +13,7 @@ class ChrisListsContainer extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+
 			family_ID: null,
 			pageToView: "My Families",
 			families: [],
@@ -427,21 +428,24 @@ class ChrisListsContainer extends Component {
 		})
 	}
 
-	render() {
-		// I need to display my nav bar(CHECK) and 
-		// I need to display the current users families they are related to (CHECK) and
-		// I need to display their family members under each family
-		
+	render() {	
 		return (
 			<div>
-				<h1>Chris Lists</h1>
-				<Navbar color="light" light expand="md">
+				<header className="header-style">
+            	<h1 className="text-center">
+		           The Chris List
+	            </h1>
+	            <h2 className="text-center">
+	            	A Christmas Present Manager
+	            </h2>
+	            </header>
+				<Navbar className="nav-bar" >
 				<Nav>
 				  {
 						this.state.pageToView === "presents"
 						?
 							<NavItem>
-					          <NavLink onClick={this.createPresentModalOpen} href="#">Add A Present</NavLink>
+					          <NavLink  className="nav-link" onClick={this.createPresentModalOpen} href="#">Add A Present</NavLink>
 					        </NavItem>
 				        :
 					        null

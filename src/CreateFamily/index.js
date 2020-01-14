@@ -7,17 +7,17 @@ function CreateFamily(props) {
 		 <div>
 		      <Modal isOpen={props.open} >
 		      <Form onSubmit={props.addFamily}>
-			        <ModalHeader>Add Family</ModalHeader>
+			        <ModalHeader>Add A Family</ModalHeader>
 			        <ModalBody>
 			        	 <FormGroup>
-					        <Label for="family_name">Add a Family to Chris List!</Label>
+					        <Label  for="family_name">Add a Family to Chris List!</Label>
 					        <Input type="text" name="family_name" id="family_name" value={props.family_name}
 				                onChange={props.handleCreateFamilyChange}/>
 					      </FormGroup>
 			        </ModalBody>
 			        <ModalFooter>
 			          <Button color="secondary" onClick={props.closeModal}>Cancel</Button>
-			          <Button color="primary" type='Submit'>Add a Family</Button>
+			          <Button color="danger" type='Submit'>Add a Family</Button>
 			        </ModalFooter>
 		        </Form>
 		      </Modal>

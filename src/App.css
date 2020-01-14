@@ -8,7 +8,7 @@
 .header-style {
   background-color: #cc9966;
   color: white;
-  text-shadow: 2px 2px #ff0000;
+  text-shadow: 1px 1px black;
   width: 100%;
   max-width: 430px;
   padding: 15px;
@@ -21,13 +21,13 @@
   margin-top: 30px;
   border-radius: 8%;
   color: white;
-  text-shadow: 2px 2px #ff0000;
+  text-shadow: 1px 1px black;
   background-color: #cc9966;
   border: solid #604020 10px;
 }
 .LRButton {
   color: white;
-  text-shadow: 2px 2px #ff0000;
+  text-shadow: 1px 1px black;
 }
 
 .LRHyperL {
@@ -37,3 +37,78 @@
 body {
   background-color: #2E8B57;
 }
+
+.nav-bar {
+  padding: 5px;
+  margin-top: 30px;
+  margin-bottom: 10px;
+  background-color: #cc9966;
+  border: solid #604020 5px; 
+}
+
+.nav-link {
+  color: white;
+  text-shadow: 1px 1px black;
+  width: 100%;
+  max-width: 430px;
+}
+.list-group-item {
+  background-color: #cc9966;
+  color: white;
+  font-size: 1rem;
+  text-shadow: 1px 1px black;
+  width: 100%;
+  max-width: 200px;
+  margin: 10px auto;
+  /*border: solid #604020 5px; */
+  border: none;
+ }
+ .list-group {
+  background-color: #cc9966;
+  max-width: 300px;
+  margin: 10px auto;
+  border: solid #604020 5px;
+ }
+
+.modal-header {
+  color: white;
+  text-shadow: 1px 1px black;
+  background-color: #cc9966;
+  border: solid #604020 5px;
+  border-bottom: none;
+}
+
+.modal-body {
+  color: white;
+  text-shadow: 1px 1px black;
+  background-color: #cc9966;
+  border: solid #604020 5px;
+  border-top: none;
+  border-bottom: none;
+}
+
+.modal-title {
+  margin: 0 auto;
+}
+.modal-footer {
+  color: white;
+  text-shadow: 1px 1px black;
+  background-color: #cc9966;
+  border: solid #604020 5px;
+  border-top: none;
+}
+.form-control {
+  border: solid #604020 5px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
