@@ -11,7 +11,7 @@ function PresentsList(props) {
 		
 		return (
 			<div key={present.id}>
-		      <ListGroup >       
+		      <ListGroup className="presents">       
 		        <ListGroupItem onClick={() => props.showSelectedPresent(present.id)} tag="a" href="#" action>
 		        	<Label>Item: </Label>
 		        	 {present.present_name}<br/>
@@ -30,7 +30,7 @@ function PresentsList(props) {
 	});
 	return (
     	<div>
-    	 <h4>My Presents</h4>
+    	 <h4 className="family-title">My Presents</h4>
         	{ userPresents }
 	    </div>
     )

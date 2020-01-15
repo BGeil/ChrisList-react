@@ -13,6 +13,7 @@
   max-width: 430px;
   padding: 15px;
   margin: auto;
+  margin-top: 15px;
   height: 100%;
   border-radius: 50%;
   border: solid #604020 10px;
@@ -97,18 +98,39 @@ body {
   border: solid #604020 5px;
   border-top: none;
 }
+
 .form-control {
   border: solid #604020 5px;
 }
 
+.list-group-show-family {
+ color: white;
+ text-shadow: 1px 1px black;
+ border: solid #604020 5px;
+ margin-bottom: 20px;
+}
 
+.family-title {
+  color: white;
+  text-shadow: 1px 1px black;
+  background-color: #cc9966;
+  border: solid #604020 5px;
+  margin-left: 230px;
+  margin-right: 225px;
+}
 
+.show-family-member {
+  background-color: pink;
+}
 
+.list-group-item-action {
+  border: solid #604020 5px;
+}
 
-
-
-
-
+.presents {
+  border: none;
+  background-color: #2E8B57;
+}
 
 
 

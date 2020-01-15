@@ -17,7 +17,7 @@ function FamiliesList (props) {
 	});
 	return (
     	<div>
-        	{ userFamilies }
+        	<h4>{userFamilies}</h4>
 	    </div>
 	)
 }
