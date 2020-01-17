@@ -63,6 +63,7 @@ body {
   margin: 10px auto;
   /*border: solid #604020 5px; */
   border: none;
+
  }
  .list-group {
   background-color: #cc9966;
@@ -115,12 +116,16 @@ body {
   text-shadow: 1px 1px black;
   background-color: #cc9966;
   border: solid #604020 5px;
-  margin-left: 230px;
-  margin-right: 225px;
+  margin-left: 210px;
+  margin-right: 210px;
 }
 
 .show-family-member {
-  background-color: pink;
+  color: white;
+  text-shadow: 1px 1px black;
+  background-color: #cc9966;
+  border: solid #604020 5px;
+  margin-bottom: 10px;
 }
 
 .list-group-item-action {
@@ -132,5 +137,12 @@ body {
   background-color: #2E8B57;
 }
 
-
-
+.list-group-item-action:hover {
+  color: white;
+  text-shadow: 1px 1px black;
+  background-color: #cc9966;
+}
+.show-family-style {
+ border: none;
+ background-color: #2E8B57;
+}
